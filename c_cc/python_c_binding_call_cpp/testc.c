@@ -15,10 +15,12 @@ static struct PyMethodDef testc_method[] =
     {NULL, NULL, 0, NULL}
 };
 
-/* In python the usage
-   import testc from test
-   testc()
+/* 
+    In python the usage
+    import testc from test
+    testc()
 */
+
 void inittestc(void)
 {
     Py_InitModule("testc", testc_method);
