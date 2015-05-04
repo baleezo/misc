@@ -5,6 +5,7 @@
 
 using namespace std;
 
+// Wrapper for g_main_loop
 gboolean cb_wrapper(gpointer userdata)
 {
     PyObject *cb = (PyObject *)userdata;
@@ -31,9 +32,11 @@ gboolean cb_wrapper(gpointer userdata)
 
 void *worker(void *data)
 {
-    //g_timeout_add(0, cb_wrapper, (gpointer)data);
-    //return NULL;
+    // Wrapper for g_main_loop
+    g_timeout_add(0, cb_wrapper, (gpointer)data);
+    return NULL;
 
+    /*
     PyObject *cb = (PyObject *)data;
     PyObject *arglist = Py_BuildValue("(s)", "exec overed");
     cout << "Ready to callback" << endl;
@@ -54,7 +57,8 @@ void *worker(void *data)
     }
 
     cout << "cb overed" << endl;
-    return NULL;;
+    return NULL;
+    */
 }
 
 
