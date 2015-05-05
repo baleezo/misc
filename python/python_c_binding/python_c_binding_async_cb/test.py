@@ -21,7 +21,7 @@ from testc import testc
 
 def test():
     def run():
-        print testc(cb)
+        testc(cb)
         return True
 
     gobject.timeout_add(1000, run)

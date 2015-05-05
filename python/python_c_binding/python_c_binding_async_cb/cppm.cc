@@ -4,8 +4,6 @@
 #include <glib-object.h>
 #include "cppm.h"
 
-using namespace std;
-
 typedef struct {
     PyObject *cb;
     gpointer data;
