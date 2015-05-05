@@ -30,7 +30,7 @@ static struct PyMethodDef testc_method[] =
 /* 
     In python the usage
     import testc from test
-    testc()
+    testc(callback)
 */
 
 void inittestc(void)

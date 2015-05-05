@@ -1,7 +1,5 @@
-#include <iostream>
 #include <pthread.h>
 #include <glib.h>
-#include <glib-object.h>
 #include "cppm.h"
 
 typedef struct {
