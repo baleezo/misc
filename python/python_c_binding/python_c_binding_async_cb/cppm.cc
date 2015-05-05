@@ -14,6 +14,7 @@ gboolean cb_wrapper(gpointer userdata)
     PyObject *arglist = Py_BuildValue("(s)", (char *)cb_info->data);
     PyObject *result = PyObject_CallObject(cb_info->cb, arglist);
     Py_DECREF(arglist);
+    Py_XDECREF(cb_info->cb);
     if (result == NULL)
     {
         PyErr_Print();
@@ -44,6 +45,7 @@ void *worker(void *data)
     PyObject *arglist = Py_BuildValue("(s)", "exec overed");
     PyObject *result = PyObject_CallObject((PyObject *)data, arglist);
     Py_DECREF(arglist);
+    Py_XDECREF((PyObject *)data);
     if (result == NULL)
     {
         PyErr_Print();
@@ -65,6 +67,7 @@ PyObject *cpp_method(PyObject *cb)
     if (pthread_create(&tid, &attr, worker, (void *)cb))
     {
         g_warning("Failed to create thread");
+        Py_XDECREF(cb);
         Py_RETURN_FALSE;
     }
 
