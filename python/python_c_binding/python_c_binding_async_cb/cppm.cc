@@ -18,14 +18,12 @@ gboolean cb_wrapper(gpointer userdata)
     PyObject *cb = cb_info->cb;
     
     PyObject *arglist = Py_BuildValue("(s)", (char *)cb_info->data);
-    cout << "Ready to callback" << endl;
     if (!PyCallable_Check(cb))
     {
         cout << "cb is not callable" << endl;
         return FALSE;;
     }
     PyObject *result = PyObject_CallObject(cb, arglist);
-    cout << "after cb" << endl;
     Py_DECREF(arglist);
     if (result == NULL)
     {
@@ -33,7 +31,6 @@ gboolean cb_wrapper(gpointer userdata)
         return FALSE;
     }
 
-    cout << "cb overed" << endl;
     return FALSE;
 }
 
@@ -50,7 +47,7 @@ void *worker(void *data)
     cb_info_t *cb_info = g_new0(cb_info_t, 1);
     cb_info->cb = (PyObject *)data;
     cb_info->data = g_strdup("async job exec overed");
-    g_timeout_add_full(G_PRIORITY_HIGH, 0, cb_wrapper, (gpointer)data, free_cb_info);
+    g_timeout_add_full(G_PRIORITY_HIGH, 0, cb_wrapper, (gpointer)cb_info, free_cb_info);
     return NULL;
 
     /* callback directly
