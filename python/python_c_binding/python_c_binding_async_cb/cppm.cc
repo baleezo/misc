@@ -13,9 +13,8 @@ typedef struct {
 gboolean cb_wrapper(gpointer userdata)
 {
     cb_info_t *cb_info = (cb_info_t *)userdata;
-    PyObject *cb = cb_info->cb;
     PyObject *arglist = Py_BuildValue("(s)", (char *)cb_info->data);
-    PyObject *result = PyObject_CallObject(cb, arglist);
+    PyObject *result = PyObject_CallObject(cb_info->cb, arglist);
     Py_DECREF(arglist);
     if (result == NULL)
     {
@@ -44,26 +43,16 @@ void *worker(void *data)
     return NULL;
 
     /* callback directly
-    PyObject *cb = (PyObject *)data;
     PyObject *arglist = Py_BuildValue("(s)", "exec overed");
-    cout << "Ready to callback" << endl;
-    if (!PyCallable_Check(cb))
-    {
-        cout << "cb is not callable" << endl;
-        return NULL;;
-    }
-
-    PyObject *result = PyObject_CallObject(cb, arglist);
-    cout << "after cb" << endl;
-
+    PyObject *result = PyObject_CallObject((PyObject *)data, arglist);
     Py_DECREF(arglist);
     if (result == NULL)
     {
-        cout << "cb result is NULL" << endl;
+        PyErr_Print();
         return NULL;
     }
 
-    cout << "cb overed" << endl;
+    Py_DECREF(result);
     return NULL;
     */
 }
