@@ -6,6 +6,8 @@ extern "C"
 {
 #endif
 
+extern PyObject *testcErr;
+
 PyObject *cpp_method(PyObject *cb);
 
 #ifdef __cplusplus

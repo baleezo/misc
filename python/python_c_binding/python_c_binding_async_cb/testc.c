@@ -2,6 +2,8 @@
 #include <glib.h>
 #include "cppm.h"
 
+PyObject *testcErr = NULL;
+
 static PyObject *Call_testc(PyObject *self, PyObject *args)
 {
     PyObject *cb;
@@ -35,6 +37,15 @@ static struct PyMethodDef testc_method[] =
 
 void inittestc(void)
 {
-    Py_InitModule("testc", testc_method);
+    Py_Initialize();
+    PyObject *m = Py_InitModule("testc", testc_method);
+    if (m == NULL)
+    {
+        return;
+    }
+
+    testcErr = PyErr_NewException("testc.error", NULL, NULL);
+    Py_INCREF(testcErr);
+    PyModule_AddObject(m, "error", testcErr);
 }
 
