@@ -1,18 +1,19 @@
 #include <stdio.h>
+#include <glib.h>
 #include "cppm.h"
-
 
 static PyObject *Call_testc(PyObject *self, PyObject *args)
 {
     PyObject *cb;
     if (!PyArg_ParseTuple(args, "O:set_callback", &cb))
     {
-        Py_RETURN_FALSE;
+        return NULL;
     }
 
     if (!PyCallable_Check(cb))
     {
         PyErr_SetString(PyExc_TypeError, "Parameter must be callable");
+        g_warning("Parameter must be callable");
         return NULL;
     }
 

@@ -1,7 +1,7 @@
 #include <iostream>
+#include <pthread.h>
 #include <glib.h>
 #include <glib-object.h>
-#include <pthread.h>
 #include "cppm.h"
 
 using namespace std;
@@ -16,21 +16,17 @@ gboolean cb_wrapper(gpointer userdata)
 {
     cb_info_t *cb_info = (cb_info_t *)userdata;
     PyObject *cb = cb_info->cb;
-    
     PyObject *arglist = Py_BuildValue("(s)", (char *)cb_info->data);
-    if (!PyCallable_Check(cb))
-    {
-        cout << "cb is not callable" << endl;
-        return FALSE;;
-    }
     PyObject *result = PyObject_CallObject(cb, arglist);
     Py_DECREF(arglist);
     if (result == NULL)
     {
-        cout << "cb result is NULL" << endl;
+        g_warning("cb result is NULL");
+        PyErr_Clear();
         return FALSE;
     }
 
+    Py_DECREF(result);
     return FALSE;
 }
 
@@ -75,7 +71,6 @@ void *worker(void *data)
     */
 }
 
-
 PyObject *cpp_method(PyObject *cb)
 {
     pthread_t tid = 0;
@@ -85,8 +80,8 @@ PyObject *cpp_method(PyObject *cb)
 
     if (pthread_create(&tid, &attr, worker, (void *)cb))
     {
-        printf("Failed to create thread\n");
-        return 0;
+        g_warning("Failed to create thread");
+        Py_RETURN_FALSE;
     }
 
     pthread_detach(tid);
