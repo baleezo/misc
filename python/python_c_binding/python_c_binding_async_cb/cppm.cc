@@ -19,8 +19,7 @@ gboolean cb_wrapper(gpointer userdata)
     Py_DECREF(arglist);
     if (result == NULL)
     {
-        g_warning("cb result is NULL");
-        PyErr_Clear();
+        PyErr_Print();
         return FALSE;
     }
 
