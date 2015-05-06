@@ -37,7 +37,6 @@ static struct PyMethodDef testc_method[] =
 
 void inittestc(void)
 {
-    Py_Initialize();
     PyObject *m = Py_InitModule("testc", testc_method);
     if (m == NULL)
     {
