@@ -39,7 +39,7 @@ def cb(s, userdata):
 def test():
     def run():
         ''' async callback without userdata '''
-        testc(cb, err_cb
+        testc(cb, err_cb)
         ''' async callback with userdata '''
         #testc(cb, err_cb, "QQ")
         return True
