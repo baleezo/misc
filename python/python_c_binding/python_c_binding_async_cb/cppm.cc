@@ -1,7 +1,6 @@
-#include <Python.h>
+#include "cppm.h"
 #include <pthread.h>
 #include <glib.h>
-#include "cppm.h"
 
 typedef struct {
     PyObject *cb;
