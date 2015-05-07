@@ -17,19 +17,20 @@ logger.addHandler(Handler)
 
 
 def err_cb(*args):
-    with open('err.log', 'w') as errlog:
+    logger.error('Error:', exc_info=args)
+    #with open('err.log', 'w') as errlog:
         #traceback.print_exception(*args, file=errlog)
-        traceback.print_exception(*args, file=sys.stderr)
+        #traceback.print_exception(*args, file=sys.stderr)
 
 
 def cb(s):
-    #print s[a]
-    #return
+    print s[a]
+    return
 
-    try:
-        print s[a]
-    except Exception as e:
-        logger.exception('err[%s]', e)
+    #try:
+    #    print s[a]
+    #except Exception as e:
+    #    logger.exception('err[%s]', e)
 
 
 def test():
