@@ -1,6 +1,5 @@
 #include "cppm.h"
 #include <stdio.h>
-#include <glib.h>
 
 PyObject *testcErr = NULL;
 
