@@ -25,9 +25,12 @@ def err_cb(err, userdata):
 
 
 def cb(s, userdata):
-    ''' test errback '''
-    print s, userdata[1] #  exception here
+    ''' Show result '''
+    print 'callback res[', s, '] userdata[', userdata, ']'
     return
+    ''' test errback '''
+    #print s, userdata[1] #  exception here
+    #return
 
     ''' test try except '''
     #try:
