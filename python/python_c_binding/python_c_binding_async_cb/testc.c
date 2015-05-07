@@ -6,21 +6,27 @@ PyObject *testcErr = NULL;
 
 static PyObject *Call_testc(PyObject *self, PyObject *args)
 {
-    PyObject *cb;
-    if (!PyArg_ParseTuple(args, "O:set_callback", &cb))
+    PyObject *cb = NULL, *errb = NULL;
+    if (!PyArg_ParseTuple(args, "O|O", &cb, &errb))
     {
         return NULL;
     }
 
     if (!PyCallable_Check(cb))
     {
-        PyErr_SetString(PyExc_TypeError, "Parameter must be callable");
-        g_warning("Parameter must be callable");
+        PyErr_SetString(testcErr, "param 1 must be callable");
+        return NULL;
+    }
+
+    if (errb && !PyCallable_Check(errb))
+    {
+        PyErr_SetString(testcErr, "param 2 must be callable");
         return NULL;
     }
 
     Py_XINCREF(cb);
-    return cpp_method(cb);
+    Py_XINCREF(errb);
+    return cpp_method(cb, errb);
 }
 
 static struct PyMethodDef testc_method[] = 
@@ -35,7 +41,8 @@ static struct PyMethodDef testc_method[] =
     testc(callback)
 */
 
-void inittestc(void)
+PyMODINIT_FUNC
+inittestc(void)
 {
     PyObject *m = Py_InitModule("testc", testc_method);
     if (m == NULL)

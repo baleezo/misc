@@ -8,7 +8,7 @@ extern "C"
 
 extern PyObject *testcErr;
 
-PyObject *cpp_method(PyObject *cb);
+PyObject *cpp_method(PyObject *cb, PyObject *errb);
 
 #ifdef __cplusplus
 }
