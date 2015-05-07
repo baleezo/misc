@@ -88,6 +88,7 @@ PyObject *cpp_method(PyObject *cb, PyObject *errb)
     {
         g_warning("Failed to create thread");
         Py_XDECREF(cb);
+        Py_XDECREF(errcb);
         Py_RETURN_FALSE;
     }
 
