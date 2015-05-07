@@ -18,15 +18,18 @@ logger.addHandler(Handler)
 
 def err_cb(err, userdata):
     logger.error('Error:', exc_info=err)
+    ''' log to file or redirect to stderr '''
     #with open('err.log', 'w') as errlog:
         #traceback.print_exception(err, file=errlog)
         #traceback.print_exception(err, file=sys.stderr)
 
 
 def cb(s, userdata):
-    print s, userdata[1]
+    ''' test errback '''
+    print s, userdata[1] #  exception here
     return
 
+    ''' test try except '''
     #try:
     #    print s[a]
     #except Exception as e:
@@ -35,7 +38,9 @@ def cb(s, userdata):
 
 def test():
     def run():
-        testc(cb, err_cb)
+        ''' async callback without userdata '''
+        testc(cb, err_cb
+        ''' async callback with userdata '''
         #testc(cb, err_cb, "QQ")
         return True
 
@@ -46,5 +51,6 @@ if __name__ == '__main__':
     dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
 
     test()
+
     mainloop = gobject.MainLoop()
     mainloop.run()
