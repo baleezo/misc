@@ -37,8 +37,8 @@ static struct PyMethodDef testc_method[] =
 
 /* 
     In python the usage
-    import testc from test
-    testc(callback)
+    import testc from testc
+    testc(callback, errback, userdata)
 */
 
 PyMODINIT_FUNC
