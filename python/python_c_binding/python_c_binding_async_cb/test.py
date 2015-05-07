@@ -16,15 +16,15 @@ logger=logging.getLogger(__name__)
 logger.addHandler(Handler)
 
 
-def err_cb(*args):
-    logger.error('Error:', exc_info=args)
+def err_cb(err, userdata):
+    logger.error('Error:', exc_info=err)
     #with open('err.log', 'w') as errlog:
-        #traceback.print_exception(*args, file=errlog)
-        #traceback.print_exception(*args, file=sys.stderr)
+        #traceback.print_exception(err, file=errlog)
+        #traceback.print_exception(err, file=sys.stderr)
 
 
-def cb(s):
-    print s[a]
+def cb(s, userdata):
+    print s, userdata[1]
     return
 
     #try:
@@ -36,6 +36,7 @@ def cb(s):
 def test():
     def run():
         testc(cb, err_cb)
+        #testc(cb, err_cb, "QQ")
         return True
 
     gobject.timeout_add(1000, run)

@@ -6,8 +6,8 @@ PyObject *testcErr = NULL;
 
 static PyObject *Call_testc(PyObject *self, PyObject *args)
 {
-    PyObject *cb = NULL, *errb = NULL;
-    if (!PyArg_ParseTuple(args, "O|O", &cb, &errb))
+    PyObject *cb = NULL, *errb = NULL, *userdata = NULL;
+    if (!PyArg_ParseTuple(args, "O|O|O", &cb, &errb, &userdata))
     {
         return NULL;
     }
@@ -26,7 +26,8 @@ static PyObject *Call_testc(PyObject *self, PyObject *args)
 
     Py_XINCREF(cb);
     Py_XINCREF(errb);
-    return cpp_method(cb, errb);
+    Py_XINCREF(userdata);
+    return cpp_method(cb, errb, userdata);
 }
 
 static struct PyMethodDef testc_method[] = 
