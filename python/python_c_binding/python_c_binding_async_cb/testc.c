@@ -1,3 +1,4 @@
+#include <Python.h>
 #include <stdio.h>
 #include <glib.h>
 #include "cppm.h"
