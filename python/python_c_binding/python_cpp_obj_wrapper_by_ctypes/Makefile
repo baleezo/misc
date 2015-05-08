@@ -4,4 +4,4 @@ all: foo.o
 		g++ -shared -Wl,-soname,libfoo.so $(CXXFLAGS) -o libfoo.so  foo.o
 
 clean:
-		@rm *.o *.so *.pyc
+		rm -f *.o *.so *.pyc

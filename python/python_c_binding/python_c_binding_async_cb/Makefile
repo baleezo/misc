@@ -8,4 +8,4 @@ testc.so: testc.o cppm.o
 		g++ -shared testc.o cppm.o $(CFLAGS) -o testc.so
 
 clean:
-		@rm *.so *.o
+		rm -f *.so *.o

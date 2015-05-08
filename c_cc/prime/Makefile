@@ -1,16 +1,7 @@
-SHELL=/bin/bash
 
-prime: prime_cc.o ptest.o ptestc.o prime.o
-	$(CXX) -o prime ptest.o prime_cc.o
-	$(CC) -o primec ptestc.o prime.o -lm
-#primec: ptestc.o prime.o
-#	$(CC) -o primec ptestc.o prime.o -lm
-
-ptestc.o: ptest.c
-	$(CC) -c ptest.c -o ptestc.o
-
-ptest.o: ptest.cc
-	$(CXX) -c ptest.cc #-o ptest.o
+all: prime_cc.o ptest_c.o ptest_cc.o prime.o
+	$(CXX) -o prime_cc ptest_cc.o prime_cc.o
+	$(CC) -o prime_c ptest_c.o prime.o -lm
 
 clean:
-	@rm *.o primec prime
+	rm -f *.o prime_c prime_cc

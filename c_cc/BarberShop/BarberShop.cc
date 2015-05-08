@@ -37,7 +37,9 @@ CBarberShop::~CBarberShop()
 
 void CBarberShop::OpenShop()
 {
-	printf("The barbershop is open\n");
+	printf("The barbershop is opened\n");
+	printf(">> Hit 1 to add a customer\n");
+	printf(">> Hit 2 to close the shop\n");
 	
 	m_bOpen = true;
 

@@ -4,4 +4,4 @@ test: main.o cppm.o
 		g++ main.o cppm.o -o test
 
 clean:
-		@rm *.o test
+		rm -f *.o test
