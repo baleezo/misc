@@ -3,16 +3,17 @@
 
 class foo {
     public:
-        PyObject * method_a();
-        PyObject * method_b();
-        PyObject * method_c();
-        PyObject * method_d();
         foo(){
             std::cout << "foo ctor" << std::endl;
         }
         ~foo(){
             std::cout << "foo dtor" << std::endl;
         };
+
+        PyObject * method_a();
+        PyObject * method_b();
+        PyObject * method_c();
+        PyObject * method_d();
 };
 
 
