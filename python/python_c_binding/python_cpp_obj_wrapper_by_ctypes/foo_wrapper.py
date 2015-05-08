@@ -26,7 +26,7 @@ class Foo:
         return lib.foo_method_a(self.obj)
 
     def method_b(self, obj=None):
-        ''' copy the result to prevent the obj arg is created in the arg list '''
+        ''' copy the result to handle the obj arg is created in the arg list '''
         return copy.deepcopy(lib.foo_method_b(self.obj, py_object(obj)))
 
     def clear_arg(self):
