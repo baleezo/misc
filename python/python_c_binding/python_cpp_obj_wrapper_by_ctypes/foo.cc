@@ -25,21 +25,21 @@ PyObject *foo::method_a()
 
 PyObject *foo::method_b()
 {
-    std::cout << "method a return True => ";
+    std::cout << "method b return True => ";
     Py_RETURN_TRUE;
 }
 
 
 PyObject *foo::method_c()
 {
-    std::cout << "method a return str => ";
+    std::cout << "method c return str => ";
     return PyString_FromString("python str object");
 }
 
 
 PyObject *foo::method_d()
 {
-    std::cout << "method a return dict => ";
+    std::cout << "method d return dict => ";
     return Py_BuildValue("{s:s}", "key", "val");
 }
 
