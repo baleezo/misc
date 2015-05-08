@@ -1,8 +1,6 @@
 #include <Python.h>
 #include <iostream>
 
-using namespace std;
-
 class foo {
     public:
         PyObject * method_a();
@@ -10,39 +8,39 @@ class foo {
         PyObject * method_c();
         PyObject * method_d();
         foo(){
-            cout << "foo ctor" << endl;
+            std::cout << "foo ctor" << std::endl;
         }
         ~foo(){
-            cout << "foo dtor" << endl;
+            std::cout << "foo dtor" << std::endl;
         };
 };
 
 
 PyObject *foo::method_a()
 {
-    Py_INCREF(Py_None);
-    return Py_None;
+    std::cout << "method a return None => ";
+    Py_RETURN_NONE;
 }
 
 
 PyObject *foo::method_b()
 {
-    Py_INCREF(Py_None);
-    return Py_None;
+    std::cout << "method a return True => ";
+    Py_RETURN_TRUE;
 }
 
 
 PyObject *foo::method_c()
 {
-    Py_INCREF(Py_None);
-    return Py_None;
+    std::cout << "method a return str => ";
+    return PyString_FromString("python str object");
 }
 
 
 PyObject *foo::method_d()
 {
-    Py_INCREF(Py_None);
-    return Py_None;
+    std::cout << "method a return dict => ";
+    return Py_BuildValue("{s:s}", "key", "val");
 }
 
 extern "C" {
