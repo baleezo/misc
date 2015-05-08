@@ -8,6 +8,7 @@ lib.foo_method_d.restype = py_object
 class Foo:
 
     def __init__(self):
+        print 'foo wrapper ctor'
         try:
             self.obj = lib.new_foo()
         except:
@@ -17,6 +18,8 @@ class Foo:
     def __del__(self):
         if self.obj:
             lib.release_foo(self.obj)
+
+        print 'foo wrapper dtor'
 
     def method_a(self):
         return lib.foo_method_a(self.obj)
