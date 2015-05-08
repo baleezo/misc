@@ -4,6 +4,7 @@ lib.foo_method_a.restype = py_object
 lib.foo_method_b.restype = py_object
 lib.foo_method_c.restype = py_object
 lib.foo_method_d.restype = py_object
+import copy
 
 class Foo:
 
@@ -24,8 +25,12 @@ class Foo:
     def method_a(self):
         return lib.foo_method_a(self.obj)
 
-    def method_b(self):
-        return lib.foo_method_b(self.obj)
+    def method_b(self, obj=None):
+        ''' copy the result to prevent the obj arg is created in the arg list '''
+        return copy.deepcopy(lib.foo_method_b(self.obj, py_object(obj)))
+
+    def clear_arg(self):
+        self.b_arg = None
 
     def method_c(self):
         return lib.foo_method_c(self.obj)

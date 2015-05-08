@@ -11,7 +11,7 @@ class foo {
         };
 
         PyObject * method_a();
-        PyObject * method_b();
+        PyObject * method_b(PyObject *obj);
         PyObject * method_c();
         PyObject * method_d();
 };
@@ -24,10 +24,10 @@ PyObject *foo::method_a()
 }
 
 
-PyObject *foo::method_b()
+PyObject *foo::method_b(PyObject *obj)
 {
-    std::cout << "method b return True => ";
-    Py_RETURN_TRUE;
+    std::cout << "method b return obj => ";
+    return obj;
 }
 
 
@@ -48,7 +48,7 @@ extern "C" {
     foo *new_foo(){return new foo();}
     void release_foo(foo *f){f->~foo();}
     PyObject *foo_method_a(foo *f){return f->method_a();}
-    PyObject *foo_method_b(foo *f){return f->method_b();}
+    PyObject *foo_method_b(foo *f, PyObject *obj){return f->method_b(obj);}
     PyObject *foo_method_c(foo *f){return f->method_c();}
     PyObject *foo_method_d(foo *f){return f->method_d();}
 }
