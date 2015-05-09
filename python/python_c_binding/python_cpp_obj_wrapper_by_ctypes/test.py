@@ -6,11 +6,12 @@ def run():
 
     a = foo.method_a()
     print type(a), a
-    b = foo.method_b({1:2})
+    b = foo.method_b({1:{2:{3:4}}})
     print type(b), b
-    c = foo.method_b({3:4})
-    print type(b), b
+    c = foo.method_b({5:6})
     print type(c), c
+    b[1][2][3] = 10
+    print 'privious b res', type(b), b
     c = foo.method_c("Qoo")
     print type(c), c
     c2 = foo.method_c("Qoo2")
