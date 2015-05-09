@@ -9,12 +9,39 @@ public:
     Q(){};
     void x()
     {
-        cout << "Q" << endl;
+        cout << "call method x of Q" << endl;
     };
 };
 
-void cpp_method()
+void *new_Q()
 {
+    cout << __func__ << ": must free Q by yourself" << endl;
+    return (void *)new Q();
+}
+
+#define GET_Q(self) ((Q *)(self->q))
+
+void method_x(q_wrapper_t *self)
+{
+    if (!GET_Q(self))
+    {
+        cout << "Q is freed, can not call Q.x()" << endl;
+        return;
+    }
+
+    GET_Q(self)->x();
+}
+
+void free_q(q_wrapper_t *self)
+{
+    cout << "free Q" << endl;
+    delete GET_Q(self);
+    self->q = NULL;
+}
+
+void only_call_x()
+{
+    cout << __func__ << endl;
     Q q;
     q.x();
 }
