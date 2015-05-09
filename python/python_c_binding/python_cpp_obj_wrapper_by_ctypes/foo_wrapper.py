@@ -32,8 +32,8 @@ class Foo:
     def clear_arg(self):
         self.b_arg = None
 
-    def method_c(self):
-        return lib.foo_method_c(self.obj)
+    def method_c(self, in_str):
+        return lib.foo_method_c(self.obj, in_str)
 
     def method_d(self):
         return lib.foo_method_d(self.obj)
