@@ -45,3 +45,21 @@ void only_call_x()
     Q q;
     q.x();
 }
+
+void h_method_x(Q_HANDLE q_handle)
+{
+    if (!q_handle)
+    {
+        cout << "Q is freed, can not call Q.x()" << endl;
+        return;
+    }
+
+    ((Q *)q_handle)->x();
+}
+
+void h_free_q(Q_HANDLE *q_handle)
+{
+    cout << "handle free Q" << endl;
+    delete (Q *)*q_handle;
+    *q_handle = NULL;
+}

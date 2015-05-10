@@ -15,5 +15,11 @@ int main()
 
     only_call_x();
 
+    Q_HANDLE q_handle = new_Q();
+    h_method_x(q_handle);
+    h_free_q(&q_handle);
+    h_method_x(q_handle);
+
+
     return 0;
 }
