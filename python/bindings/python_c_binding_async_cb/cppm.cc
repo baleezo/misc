@@ -22,9 +22,9 @@ void handle_err(PyObject *errb, PyObject *userdata)
         return;
     }
 
-    PyObject *type = NULL, *value = NULL, *traceback = NULL;
-    PyErr_Fetch(&type, &value, &traceback);
-    PyObject *err_args = Py_BuildValue("((OOO)O)", type, value, traceback, userdata);
+    PyObject *err_type = NULL, *err_value = NULL, *err_traceback = NULL;
+    PyErr_Fetch(&err_type, &err_value, &err_traceback);
+    PyObject *err_args = Py_BuildValue("((OOO)O)", err_type, err_value, err_traceback, userdata);
     PyObject_CallObject(errb, err_args);
     Py_XDECREF(err_args);
     PyErr_Clear();
