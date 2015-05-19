@@ -3,17 +3,17 @@
 #include "foo.h"
 
 class foo {
-    public:
-        foo(){
-            std::cout << "foo ctor" << std::endl;
-        }
+public:
+    foo(){
+        std::cout << "foo ctor" << std::endl;
+    }
 
-        ~foo(){
-            std::cout << "foo dtor" << std::endl;
-        };
+    ~foo(){
+        std::cout << "foo dtor" << std::endl;
+    };
 
-        PyObject * method_a();
-        PyObject * method_b(PyObject *obj);
+    PyObject * method_a();
+    PyObject * method_b(PyObject *obj);
 };
 
 PyObject *foo::method_a()
