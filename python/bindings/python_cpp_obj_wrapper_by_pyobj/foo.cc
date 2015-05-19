@@ -26,7 +26,8 @@ PyObject *foo::method_a()
 PyObject *foo::method_b(PyObject *obj)
 {
     std::cout << "method b return obj\n";
-    Py_INCREF(obj);
+    Py_XDECREF(obj);
+    Py_XINCREF(obj);
     return obj;
 }
 

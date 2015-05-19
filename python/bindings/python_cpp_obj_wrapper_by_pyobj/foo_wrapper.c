@@ -184,6 +184,7 @@ static PyObject *call_method_b(Foo *self, PyObject *args)
         return NULL;
     }
 
+    Py_XINCREF(arg);
     return foo_method_b(self->foo, arg);
 }
 
