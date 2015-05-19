@@ -4,14 +4,13 @@
 
 typedef struct {
     PyObject_HEAD
-    PyObject *first;
+        PyObject *first;
     PyObject *last;
     int number;
     void *foo;
 } Foo;
 
-static void
-Foo_dealloc(Foo* self)
+static void Foo_dealloc(Foo* self)
 {
     release_foo(self->foo);
     Py_XDECREF(self->first);
@@ -19,8 +18,7 @@ Foo_dealloc(Foo* self)
     self->ob_type->tp_free((PyObject*)self);
 }
 
-static PyObject *
-Foo_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
+static PyObject *Foo_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
 {
     Foo *self;
 
@@ -28,17 +26,17 @@ Foo_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
     if (self != NULL) {
         self->first = PyString_FromString("");
         if (self->first == NULL)
-          {
+        {
             Py_DECREF(self);
             return NULL;
-          }
+        }
 
         self->last = PyString_FromString("");
         if (self->last == NULL)
-          {
+        {
             Py_DECREF(self);
             return NULL;
-          }
+        }
 
         self->number = 0;
         self->foo = new_foo();
@@ -46,16 +44,15 @@ Foo_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
     return (PyObject *)self;
 }
 
-static int
-Foo_init(Foo *self, PyObject *args, PyObject *kwds)
+static int Foo_init(Foo *self, PyObject *args, PyObject *kwds)
 {
     PyObject *first=NULL, *last=NULL, *tmp;
 
     static char *kwlist[] = {"first", "last", "number", NULL};
 
     if (! PyArg_ParseTupleAndKeywords(args, kwds, "|SSi", kwlist,
-                                      &first, &last,
-                                      &self->number))
+                &first, &last,
+                &self->number))
         return -1;
 
     if (first) {
@@ -77,80 +74,75 @@ Foo_init(Foo *self, PyObject *args, PyObject *kwds)
 
 static PyMemberDef Foo_members[] = {
     {"number", T_INT, offsetof(Foo, number), 0,
-     "foo_wrapper number"},
+        "foo_wrapper number"},
     {NULL}  /* Sentinel */
 };
 
-static PyObject *
-Foo_getfirst(Foo *self, void *closure)
+static PyObject *Foo_getfirst(Foo *self, void *closure)
 {
     Py_INCREF(self->first);
     return self->first;
 }
 
-static int
-Foo_setfirst(Foo *self, PyObject *value, void *closure)
+static int Foo_setfirst(Foo *self, PyObject *value, void *closure)
 {
-  if (value == NULL) {
-    PyErr_SetString(PyExc_TypeError, "Cannot delete the first attribute");
-    return -1;
-  }
+    if (value == NULL) {
+        PyErr_SetString(PyExc_TypeError, "Cannot delete the first attribute");
+        return -1;
+    }
 
-  if (! PyString_Check(value)) {
-    PyErr_SetString(PyExc_TypeError,
-                    "The first attribute value must be a string");
-    return -1;
-  }
+    if (! PyString_Check(value)) {
+        PyErr_SetString(PyExc_TypeError,
+                "The first attribute value must be a string");
+        return -1;
+    }
 
-  Py_DECREF(self->first);
-  Py_INCREF(value);
-  self->first = value;
+    Py_DECREF(self->first);
+    Py_INCREF(value);
+    self->first = value;
 
-  return 0;
+    return 0;
 }
 
-static PyObject *
-Foo_getlast(Foo *self, void *closure)
+static PyObject *Foo_getlast(Foo *self, void *closure)
 {
     Py_INCREF(self->last);
     return self->last;
 }
 
-static int
-Foo_setlast(Foo *self, PyObject *value, void *closure)
+static int Foo_setlast(Foo *self, PyObject *value, void *closure)
 {
-  if (value == NULL) {
-    PyErr_SetString(PyExc_TypeError, "Cannot delete the last attribute");
-    return -1;
-  }
+    if (value == NULL) {
+        PyErr_SetString(PyExc_TypeError, "Cannot delete the last attribute");
+        return -1;
+    }
 
-  if (! PyString_Check(value)) {
-    PyErr_SetString(PyExc_TypeError,
-                    "The last attribute value must be a string");
-    return -1;
-  }
+    if (! PyString_Check(value)) {
+        PyErr_SetString(PyExc_TypeError,
+                "The last attribute value must be a string");
+        return -1;
+    }
 
-  Py_DECREF(self->last);
-  Py_INCREF(value);
-  self->last = value;
+    Py_DECREF(self->last);
+    Py_INCREF(value);
+    self->last = value;
 
-  return 0;
+    return 0;
 }
 
 static PyGetSetDef Foo_getseters[] = {
     {"first",
-     (getter)Foo_getfirst, (setter)Foo_setfirst,
-     "first name",
-     NULL},
+        (getter)Foo_getfirst, (setter)Foo_setfirst,
+        "first name",
+        NULL},
     {"last",
-     (getter)Foo_getlast, (setter)Foo_setlast,
-     "last name",
-     NULL},
+        (getter)Foo_getlast, (setter)Foo_setlast,
+        "last name",
+        NULL},
     {NULL}  /* Sentinel */
 };
 
-static PyObject *
-Foo_name(Foo* self)
+static PyObject *Foo_name(Foo* self)
 {
     static PyObject *format = NULL;
     PyObject *args, *result;
@@ -188,10 +180,9 @@ static PyObject *call_method_b(Foo *self, PyObject *args)
     return foo_method_b(self->foo, arg);
 }
 
-
 static PyMethodDef Foo_methods[] = {
     {"name", (PyCFunction)Foo_name, METH_NOARGS,
-     "Return the name, combining the first and last name"
+        "Return the name, combining the first and last name"
     },
     {"method_a", (PyCFunction)call_method_a, METH_NOARGS, NULL},
     {"method_b", (PyCFunction)call_method_b, METH_VARARGS, NULL},
@@ -200,7 +191,7 @@ static PyMethodDef Foo_methods[] = {
 
 static PyTypeObject FooType = {
     PyObject_HEAD_INIT(NULL)
-    0,                         /*ob_size*/
+        0,                         /*ob_size*/
     "foo_wrapper.Foo",             /*tp_name*/
     sizeof(Foo),             /*tp_basicsize*/
     0,                         /*tp_itemsize*/
@@ -256,10 +247,10 @@ initfoo_wrapper(void)
         return;
 
     m = Py_InitModule3("foo_wrapper", module_methods,
-                       "Example module that creates an extension type.");
+            "Example module that creates an extension type.");
 
     if (m == NULL)
-      return;
+        return;
 
     Py_INCREF(&FooType);
     PyModule_AddObject(m, "Foo", (PyObject *)&FooType);

@@ -7,6 +7,7 @@ class foo {
         foo(){
             std::cout << "foo ctor" << std::endl;
         }
+
         ~foo(){
             std::cout << "foo dtor" << std::endl;
         };
@@ -15,13 +16,11 @@ class foo {
         PyObject * method_b(PyObject *obj);
 };
 
-
 PyObject *foo::method_a()
 {
     std::cout << "method a return None\n";
     Py_RETURN_NONE;
 }
-
 
 PyObject *foo::method_b(PyObject *obj)
 {
