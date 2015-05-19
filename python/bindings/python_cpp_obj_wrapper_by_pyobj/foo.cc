@@ -18,13 +18,13 @@ class foo {
 
 PyObject *foo::method_a()
 {
-    std::cout << "method a return None\n";
+    std::cout << "method_a return None\n";
     Py_RETURN_NONE;
 }
 
 PyObject *foo::method_b(PyObject *obj)
 {
-    std::cout << "method b return obj\n";
+    std::cout << "method_b return obj\n";
     Py_XDECREF(obj);
     Py_XINCREF(obj);
     return obj;
