@@ -1,27 +1,30 @@
 #include <Python.h>
 #include "structmember.h"
+#include "foo.h"
 
 typedef struct {
     PyObject_HEAD
     PyObject *first;
     PyObject *last;
     int number;
-} Noddy;
+    void *foo;
+} Foo;
 
 static void
-Noddy_dealloc(Noddy* self)
+Foo_dealloc(Foo* self)
 {
+    release_foo(self->foo);
     Py_XDECREF(self->first);
     Py_XDECREF(self->last);
     self->ob_type->tp_free((PyObject*)self);
 }
 
 static PyObject *
-Noddy_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
+Foo_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
 {
-    Noddy *self;
+    Foo *self;
 
-    self = (Noddy *)type->tp_alloc(type, 0);
+    self = (Foo *)type->tp_alloc(type, 0);
     if (self != NULL) {
         self->first = PyString_FromString("");
         if (self->first == NULL)
@@ -38,13 +41,13 @@ Noddy_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
           }
 
         self->number = 0;
+        self->foo = new_foo();
     }
-
     return (PyObject *)self;
 }
 
 static int
-Noddy_init(Noddy *self, PyObject *args, PyObject *kwds)
+Foo_init(Foo *self, PyObject *args, PyObject *kwds)
 {
     PyObject *first=NULL, *last=NULL, *tmp;
 
@@ -72,21 +75,21 @@ Noddy_init(Noddy *self, PyObject *args, PyObject *kwds)
     return 0;
 }
 
-static PyMemberDef Noddy_members[] = {
-    {"number", T_INT, offsetof(Noddy, number), 0,
-     "noddy number"},
+static PyMemberDef Foo_members[] = {
+    {"number", T_INT, offsetof(Foo, number), 0,
+     "foo_wrapper number"},
     {NULL}  /* Sentinel */
 };
 
 static PyObject *
-Noddy_getfirst(Noddy *self, void *closure)
+Foo_getfirst(Foo *self, void *closure)
 {
     Py_INCREF(self->first);
     return self->first;
 }
 
 static int
-Noddy_setfirst(Noddy *self, PyObject *value, void *closure)
+Foo_setfirst(Foo *self, PyObject *value, void *closure)
 {
   if (value == NULL) {
     PyErr_SetString(PyExc_TypeError, "Cannot delete the first attribute");
@@ -107,14 +110,14 @@ Noddy_setfirst(Noddy *self, PyObject *value, void *closure)
 }
 
 static PyObject *
-Noddy_getlast(Noddy *self, void *closure)
+Foo_getlast(Foo *self, void *closure)
 {
     Py_INCREF(self->last);
     return self->last;
 }
 
 static int
-Noddy_setlast(Noddy *self, PyObject *value, void *closure)
+Foo_setlast(Foo *self, PyObject *value, void *closure)
 {
   if (value == NULL) {
     PyErr_SetString(PyExc_TypeError, "Cannot delete the last attribute");
@@ -134,20 +137,20 @@ Noddy_setlast(Noddy *self, PyObject *value, void *closure)
   return 0;
 }
 
-static PyGetSetDef Noddy_getseters[] = {
+static PyGetSetDef Foo_getseters[] = {
     {"first",
-     (getter)Noddy_getfirst, (setter)Noddy_setfirst,
+     (getter)Foo_getfirst, (setter)Foo_setfirst,
      "first name",
      NULL},
     {"last",
-     (getter)Noddy_getlast, (setter)Noddy_setlast,
+     (getter)Foo_getlast, (setter)Foo_setlast,
      "last name",
      NULL},
     {NULL}  /* Sentinel */
 };
 
 static PyObject *
-Noddy_name(Noddy* self)
+Foo_name(Foo* self)
 {
     static PyObject *format = NULL;
     PyObject *args, *result;
@@ -168,20 +171,39 @@ Noddy_name(Noddy* self)
     return result;
 }
 
-static PyMethodDef Noddy_methods[] = {
-    {"name", (PyCFunction)Noddy_name, METH_NOARGS,
+static PyObject *call_method_a(Foo *self)
+{
+    return foo_method_a(self->foo);
+}
+
+static PyObject *call_method_b(Foo *self, PyObject *args)
+{
+    PyObject *arg = NULL;
+    if (!PyArg_ParseTuple(args, "O", &arg))
+    {
+        return NULL;
+    }
+
+    return foo_method_b(self->foo, arg);
+}
+
+
+static PyMethodDef Foo_methods[] = {
+    {"name", (PyCFunction)Foo_name, METH_NOARGS,
      "Return the name, combining the first and last name"
     },
+    {"method_a", (PyCFunction)call_method_a, METH_NOARGS, NULL},
+    {"method_b", (PyCFunction)call_method_b, METH_VARARGS, NULL},
     {NULL}  /* Sentinel */
 };
 
-static PyTypeObject NoddyType = {
+static PyTypeObject FooType = {
     PyObject_HEAD_INIT(NULL)
     0,                         /*ob_size*/
-    "noddy.Noddy",             /*tp_name*/
-    sizeof(Noddy),             /*tp_basicsize*/
+    "foo_wrapper.Foo",             /*tp_name*/
+    sizeof(Foo),             /*tp_basicsize*/
     0,                         /*tp_itemsize*/
-    (destructor)Noddy_dealloc, /*tp_dealloc*/
+    (destructor)Foo_dealloc, /*tp_dealloc*/
     0,                         /*tp_print*/
     0,                         /*tp_getattr*/
     0,                         /*tp_setattr*/
@@ -197,24 +219,24 @@ static PyTypeObject NoddyType = {
     0,                         /*tp_setattro*/
     0,                         /*tp_as_buffer*/
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /*tp_flags*/
-    "Noddy objects",           /* tp_doc */
+    "Foo objects",           /* tp_doc */
     0,                   /* tp_traverse */
     0,                   /* tp_clear */
     0,                   /* tp_richcompare */
     0,                   /* tp_weaklistoffset */
     0,                   /* tp_iter */
     0,                   /* tp_iternext */
-    Noddy_methods,             /* tp_methods */
-    Noddy_members,             /* tp_members */
-    Noddy_getseters,           /* tp_getset */
+    Foo_methods,             /* tp_methods */
+    Foo_members,             /* tp_members */
+    Foo_getseters,           /* tp_getset */
     0,                         /* tp_base */
     0,                         /* tp_dict */
     0,                         /* tp_descr_get */
     0,                         /* tp_descr_set */
     0,                         /* tp_dictoffset */
-    (initproc)Noddy_init,      /* tp_init */
+    (initproc)Foo_init,      /* tp_init */
     0,                         /* tp_alloc */
-    Noddy_new,                 /* tp_new */
+    Foo_new,                 /* tp_new */
 };
 
 static PyMethodDef module_methods[] = {
@@ -225,19 +247,19 @@ static PyMethodDef module_methods[] = {
 #define PyMODINIT_FUNC void
 #endif
 PyMODINIT_FUNC
-initnoddy(void)
+initfoo_wrapper(void)
 {
     PyObject* m;
 
-    if (PyType_Ready(&NoddyType) < 0)
+    if (PyType_Ready(&FooType) < 0)
         return;
 
-    m = Py_InitModule3("noddy", module_methods,
+    m = Py_InitModule3("foo_wrapper", module_methods,
                        "Example module that creates an extension type.");
 
     if (m == NULL)
       return;
 
-    Py_INCREF(&NoddyType);
-    PyModule_AddObject(m, "Noddy", (PyObject *)&NoddyType);
+    Py_INCREF(&FooType);
+    PyModule_AddObject(m, "Foo", (PyObject *)&FooType);
 }
