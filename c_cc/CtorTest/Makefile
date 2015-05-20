@@ -7,4 +7,4 @@ dctor: main.cc
 	g++ -std=c++0x -fno-elide-constructors main.cc -o dctor
 
 clean:
-	rm ctor dctor
+	rm -f ctor dctor
