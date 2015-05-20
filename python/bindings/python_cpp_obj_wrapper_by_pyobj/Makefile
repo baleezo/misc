@@ -4,7 +4,9 @@
 CFLAGS += `pkg-config --cflags --libs python` -fPIC
 CXXFLAGS += `pkg-config --cflags --libs python` -fPIC
 
-all: foo_wrapper.o foo.o
+all: foo_wrapper.so
+
+foo_wrapper.so: foo_wrapper.o foo.o
 		g++ -shared -Wl,-soname,foo_wrapper.so $(CXXFLAGS) -o foo_wrapper.so $^
 		@#g++ -shared $^ $(CXXFLAGS) -o foo_wrapper.so
 
