@@ -1,7 +1,7 @@
 all: test
 
 test: main.o cppm.o
-		g++ main.o cppm.o -o test
+		g++ $^ -o test
 
 clean:
 		rm -f *.o test

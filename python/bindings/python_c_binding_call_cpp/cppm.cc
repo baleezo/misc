@@ -9,7 +9,7 @@ public:
     Q(){};
     void x()
     {
-        cout << "Q" << endl;
+        cout << __func__ << " is called" << endl;
     };
 };
 

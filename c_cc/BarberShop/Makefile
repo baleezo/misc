@@ -1,7 +1,7 @@
 CXXFLAGS += -Wall -std=c++0x -pthread
 
-BarberShop: main.o Getche.o BarberShop.o Barber.o
-	g++ $(CXXFLAGS) Getche.o BarberShop.o Barber.o main.o -o BarberShop
+BarberShop: Getche.o BarberShop.o Barber.o main.o
+	g++ $(CXXFLAGS) $^ -o BarberShop
 
 clean:
 	rm -f *.o BarberShop
