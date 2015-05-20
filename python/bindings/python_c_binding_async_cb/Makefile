@@ -1,11 +1,11 @@
+CFLAGS += `pkg-config --cflags python` -fPIC
+CXXFLAGS += `pkg-config --cflags python gio-2.0 glib-2.0` -pthread -fPIC
+LDFLAGS += `pkg-config --libs python gio-2.0 glib-2.0`
+
 all: testc.so
 
-CFLAGS += `pkg-config --cflags --libs python` -fPIC
-
-CXXFLAGS += `pkg-config --cflags --libs python gio-2.0 glib-2.0` -pthread -fPIC
-
 testc.so: testc.o cppm.o
-		g++ -shared $^ $(CXXFLAGS) -o testc.so
+		g++ -shared $(CXXFLAGS) -o testc.so $^ $(LDFLAGS)
 
 clean:
 		rm -f *.so *.o
