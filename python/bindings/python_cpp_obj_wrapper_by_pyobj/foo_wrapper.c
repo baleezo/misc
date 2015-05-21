@@ -234,6 +234,12 @@ static PyMethodDef module_methods[] = {
     {NULL}  /* Sentinel */
 };
 
+void clean_up_module_resources()
+{
+    printf("clean up foo wrapper module resources\n");
+    return;
+}
+
 #ifndef PyMODINIT_FUNC  /* declarations for DLL import/export */
 #define PyMODINIT_FUNC void
 #endif
@@ -241,6 +247,13 @@ PyMODINIT_FUNC
 initfoo_wrapper(void)
 {
     PyObject* m;
+
+    printf("init foo wrapper module\n");
+
+    if (Py_AtExit(clean_up_module_resources) != 0) {
+        PyErr_SetString(PyExc_ImportError, "Cannot register the module resource dealloc");
+        return;
+    }
 
     if (PyType_Ready(&FooType) < 0) {
         return;
@@ -252,6 +265,7 @@ initfoo_wrapper(void)
     if (m == NULL) {
         return;
     }
+
 
     Py_INCREF(&FooType);
     PyModule_AddObject(m, "Foo", (PyObject *)&FooType);
