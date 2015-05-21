@@ -1,22 +1,23 @@
 #!/usr/bin/env python
 import cjson
-def TranslateRESTPath(path, update_data, len_limit):
+
+def rest_path_to_json(path, update_data, root_level):
     splitted_path = path.strip('/').split('/')
     path_len = len(splitted_path)
     f_update_data = update_data
 
-    if path_len < len_limit:
+    if path_len < root_level:
         print 'Update path error [%s] too short' %path
         return splitted_path, cjson.decode(f_update_data)
 
-    if path_len == len_limit:
+    if path_len == root_level:
         try:
             return splitted_path, cjson.decode(f_update_data)
         except:
             return splitted_path, '{}'
 
     f_update_data = []
-    for i in xrange(len_limit, path_len):
+    for i in xrange(root_level, path_len):
         f_update_data.append('{"')
         f_update_data.append(splitted_path[i])
         f_update_data.append('":')
@@ -26,11 +27,10 @@ def TranslateRESTPath(path, update_data, len_limit):
 
     f_update_data.append(update_data)
 
-    for i in xrange(len_limit, path_len):
+    for i in xrange(root_level, path_len):
         f_update_data.append('}')
 
     f_update_data = ''.join(f_update_data)
-    print 'f_updaet_data:', f_update_data
     try:
         f_update_data = cjson.decode(f_update_data)
     except Exception as e:
@@ -39,4 +39,10 @@ def TranslateRESTPath(path, update_data, len_limit):
 
     return splitted_path, f_update_data
 
-TranslateRESTPath('a/b/c', '2', 2)
+
+def run_test(path, data, r_level):
+    s_path, u_data = rest_path_to_json(path, data, r_level)
+    print 'translate path [', path, '] with data [', data, '] and root level [', r_level, '] to', u_data
+
+if __name__ == '__main__':
+    run_test('a/b/c/d/f/g/h', '{2:{3:4}}', 2)
