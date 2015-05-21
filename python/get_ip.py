@@ -1,14 +1,16 @@
+#!/usr/bin/env python
 import os
 import socket
+import fcntl
+import struct
 
-if os.name != "nt":
-    import fcntl
-    import struct
-
-    def get_interface_ip(ifname):
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        return socket.inet_ntoa(fcntl.ioctl(s.fileno(), 0x8915, struct.pack('256s',
-                                ifname[:15]))[20:24])
+def get_interface_ip(ifname):
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    return socket.inet_ntoa(fcntl.ioctl(s.fileno(),
+                                        0x8915,
+                                        struct.pack('256s', ifname[:15])
+                                       )[20:24]
+                           )
 
 def get_lan_ip():
     ip = socket.gethostbyname(socket.gethostname())
@@ -34,4 +36,5 @@ def get_lan_ip():
                 pass
     return ip
 
-print get_lan_ip()
+if __name__ == '__main__':
+    print get_lan_ip()
