@@ -236,6 +236,7 @@ static PyMethodDef module_methods[] = {
 
 void clean_up_module_resources()
 {
+    // release module global resources here
     printf("clean up foo wrapper module resources\n");
     return;
 }
@@ -249,6 +250,7 @@ initfoo_wrapper(void)
     PyObject* m;
 
     printf("init foo wrapper module\n");
+    // allocate module global resources here
 
     if (Py_AtExit(clean_up_module_resources) != 0) {
         PyErr_SetString(PyExc_ImportError, "Cannot register the module resource dealloc");
@@ -265,7 +267,6 @@ initfoo_wrapper(void)
     if (m == NULL) {
         return;
     }
-
 
     Py_INCREF(&FooType);
     PyModule_AddObject(m, "Foo", (PyObject *)&FooType);
