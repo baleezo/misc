@@ -1,4 +1,5 @@
 #include "cppm.h"
+#include <cstdlib>
 #include <pthread.h>
 #include <glib.h>
 
@@ -73,11 +74,15 @@ void *worker(void *data)
 {
     // Wrapper for attaching cb to g_main_loop
     worker_args_t *args = (worker_args_t *)data;
+    int work_time = (rand() % 5) + 1;
+
     cb_info_t *cb_info = g_new0(cb_info_t, 1);
     cb_info->cb = args->cb;
     cb_info->errb = args->errb;
     cb_info->userdata = args->userdata;
-    cb_info->data = g_strdup("async job exec overed");
+    cb_info->data = g_strdup_printf("async job exec overed in %d secs", work_time);
+
+    sleep(work_time);
 
     g_timeout_add_full(G_PRIORITY_HIGH, 0, cb_wrapper, (gpointer)cb_info, free_cb_info);
     return NULL;

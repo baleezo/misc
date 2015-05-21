@@ -47,7 +47,12 @@ def test():
         #testc(cb, err_cb, "QQ")
         return True
 
+    def routine_job():
+        print 'do job'
+        return True
+
     gobject.timeout_add(1000, run)
+    gobject.timeout_add(1000, routine_job)
 
 
 if __name__ == '__main__':
