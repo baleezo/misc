@@ -29,9 +29,6 @@ class Foo:
         ''' copy the result to handle the obj arg is created in the arg list '''
         return copy.deepcopy(lib.foo_method_b(self.obj, py_object(obj)))
 
-    def clear_arg(self):
-        self.b_arg = None
-
     def method_c(self, in_str):
         return lib.foo_method_c(self.obj, in_str)
 
