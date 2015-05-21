@@ -1,16 +1,16 @@
 %_only:
-		make --directory=`echo $(@) | sed 's/_only//g'` --file=Makefile
+		make -C `echo $(@) | sed 's/_only//g'` -f Makefile
 
 %_clean:
-		make --directory=`echo $(@) | sed 's/_clean//g'` --file=Makefile clean
+		make -C `echo $(@) | sed 's/_clean//g'` -f Makefile clean
 
 all:
 		@for i in */Makefile; do\
-				make --directory=$$(dirname $$i) --file=Makefile;\
+				make -C $$(dirname $$i) -f Makefile;\
 		done
 
 
 clean:
 		@for i in */Makefile; do\
-				make --directory=$$(dirname $$i) --file=Makefile clean;\
+				make -C $$(dirname $$i) -f Makefile clean;\
 		done

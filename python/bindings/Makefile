@@ -1,10 +1,10 @@
 all:
 		@for i in */Makefile; do\
-				make --directory=$$(dirname $$i) --file=Makefile;\
+				make -C $$(dirname $$i) -f Makefile;\
 		done
 
 
 clean:
 		@for i in */Makefile; do\
-				make --directory=$$(dirname $$i) --file=Makefile clean;\
+				make -C $$(dirname $$i) -f Makefile clean;\
 		done
