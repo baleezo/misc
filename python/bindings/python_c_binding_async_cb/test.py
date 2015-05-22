@@ -48,7 +48,7 @@ def test():
         return True
 
     def routine_job():
-        print 'do job'
+        print 'do routine job'
         return True
 
     gobject.timeout_add(1000, run)
