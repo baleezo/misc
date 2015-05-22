@@ -10,12 +10,14 @@ typedef struct {
 static void Foo_dealloc(Foo* self)
 {
     release_foo(self->foo);
+    self->foo = NULL;
     self->ob_type->tp_free((PyObject*)self);
 }
 
 static PyObject *Foo_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
 {
     Foo *self = (Foo *)type->tp_alloc(type, 0);
+    self->foo = NULL;
     return (PyObject *)self;
 }
 
