@@ -102,11 +102,11 @@ PyObject *cpp_method(PyObject *cb, PyObject *errb, PyObject *userdata)
 
     if (pthread_create(&tid, &attr, worker, (void *)args))
     {
-        g_warning("Failed to create thread");
         Py_XDECREF(userdata);
         Py_XDECREF(errb);
         Py_XDECREF(cb);
-        Py_RETURN_FALSE;
+        PyErr_SetString(PyExc_RuntimeError, "Failed to create thread");
+        return NULL;
     }
 
     pthread_detach(tid);
