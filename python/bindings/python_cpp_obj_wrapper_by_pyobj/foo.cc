@@ -53,7 +53,6 @@ void release_foo(void *f)
 PyObject *foo_get_name(void *f)
 {
     return ((foo *)f)->get_name();
->>>>>>> [M][python cpp obj wrapper by pyobj] Remove redundant portions
 }
 
 PyObject *foo_method_a(void *f)
