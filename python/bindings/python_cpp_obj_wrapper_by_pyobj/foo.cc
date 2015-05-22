@@ -37,7 +37,7 @@ void *new_foo()
 
 void release_foo(void *f)
 {
-    ((foo *)f)->~foo();
+    delete (foo *)f;
 }
 
 PyObject *foo_method_a(void *f)
