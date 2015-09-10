@@ -19,7 +19,7 @@ def run():
     b = foo.method_b(True)
     print type(b), b
 
-    dict_in = {1:2}
+    dict_in = {1:2, 3:4}
     print 'ref count of original obj is ', sys.getrefcount(dict_in), 'id is', id(dict_in)
 
     c = foo.method_b(dict_in)
