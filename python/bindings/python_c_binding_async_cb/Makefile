@@ -1,6 +1,6 @@
-CFLAGS += `pkg-config --cflags python` -fPIC
-CXXFLAGS += `pkg-config --cflags python gio-2.0 glib-2.0` -pthread -fPIC
-LDFLAGS += `pkg-config --libs python gio-2.0 glib-2.0`
+CFLAGS += `pkg-config --cflags python2` -fPIC
+CXXFLAGS += `pkg-config --cflags python2 gio-2.0 glib-2.0` -pthread -fPIC
+LDFLAGS += `pkg-config --libs python2 gio-2.0 glib-2.0`
 
 all: testc.so
 

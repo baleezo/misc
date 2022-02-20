@@ -1,8 +1,8 @@
 #all:
 #		python setup.py build
 
-CFLAGS += `pkg-config --cflags --libs python` -fPIC
-CXXFLAGS += `pkg-config --cflags --libs python` -fPIC
+CFLAGS += `pkg-config --cflags --libs python2` -fPIC
+CXXFLAGS += `pkg-config --cflags --libs python2` -fPIC
 
 all: foo_wrapper.so
 

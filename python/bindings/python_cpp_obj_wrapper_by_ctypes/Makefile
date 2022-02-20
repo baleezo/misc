@@ -1,4 +1,4 @@
-CXXFLAGS += `pkg-config --cflags --libs python` -fPIC
+CXXFLAGS += `pkg-config --cflags --libs python2` -fPIC
 
 all: libfoo.so
 
