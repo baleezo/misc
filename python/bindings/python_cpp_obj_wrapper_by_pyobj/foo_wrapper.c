@@ -111,7 +111,7 @@ static PyMethodDef module_methods[] = {
     {NULL}  /* Sentinel */
 };
 
-void clean_up_module_resources()
+void clean_up_module_resources(void)
 {
     // release module global resources here
     printf("clean up foo wrapper module resources\n");

@@ -1,4 +1,4 @@
 trans: main.o
-	gcc -o trans $^ -liconv
+	gcc -o trans $^
 clean:
 	rm -f trans main.o
